@@ -4,18 +4,7 @@ import UserForm from "./components/UserForm";
 
 // import "./App.css";
 function App() {
-  const [users, setUsers] = useState([
-    {
-      id: "01",
-      name: "Aryan",
-      age: 21,
-    },
-    {
-      id: "02",
-      name: "Max",
-      age: 30,
-    },
-  ]);
+  const [users, setUsers] = useState([]);
   const userFormSubmitHandler = (userData) => {
     const userObject = {
       id: Math.random().toString(),
