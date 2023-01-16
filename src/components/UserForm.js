@@ -1,52 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ErrorModal from "./ErrorModal";
 import "./UserForm.css";
 const UserForm = (props) => {
-  const [eneterdUsername, setEnteredUSername] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
   const [invalidInput, setInvalidInput] = useState(false);
-
-  const usernameChangeHandler = (event) => {
-    setEnteredUSername(event.target.value);
-  };
-
-  const ageChangeHandler = (event) => {
-    setEnteredAge(event.target.value);
-  };
 
   const errorDismissHandler = () => {
     setInvalidInput(false);
   };
 
   const [erm, setErm] = useState("");
-  //   const content = <ErrorModal message={errorMessage1}></ErrorModal>;
+
+  const enteredUserName = useRef();
+  const enteredAge = useRef();
 
   const submitFormHandler = (event) => {
     event.preventDefault();
-    if (eneterdUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+
+    const username = enteredUserName.current.value;
+    const age = enteredAge.current.value;
+    if (username.trim().length === 0 || age.trim().length === 0) {
       setErm("Please enter a valid name and age (non empty value)");
       setInvalidInput(true);
-      setEnteredAge("");
-      setEnteredUSername("");
+
+      enteredUserName.current.value = "";
+      enteredAge.current.value = "";
       return;
     }
 
-    if (Number.parseInt(enteredAge) <= 0) {
+    if (Number.parseInt(age) <= 0) {
       setErm("Please enter a valid age(>0)");
       setInvalidInput(true);
-      setEnteredAge("");
-      setEnteredUSername("");
+
+      enteredUserName.current.value = "";
+      enteredAge.current.value = "";
       return;
     }
     const userData = {
-      name: eneterdUsername,
-      age: enteredAge,
+      name: username,
+      age,
     };
 
+    console.log(userData);
     props.onFormSubmit(userData);
 
-    setEnteredAge("");
-    setEnteredUSername("");
+    enteredUserName.current.value = "";
+    enteredAge.current.value = "";
   };
   return (
     <div>
@@ -62,20 +60,12 @@ const UserForm = (props) => {
             <p>
               <label>Username</label>
               <br></br>
-              <input
-                type="text"
-                onChange={usernameChangeHandler}
-                value={eneterdUsername}
-              ></input>
+              <input type="text" ref={enteredUserName}></input>
             </p>
             <p>
               <label>Age (Years)</label>
               <br></br>
-              <input
-                type="number"
-                value={enteredAge}
-                onChange={ageChangeHandler}
-              ></input>
+              <input type="number" ref={enteredAge}></input>
             </p>
             <button type="submit" className="form-button">
               Add User

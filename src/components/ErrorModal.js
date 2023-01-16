@@ -2,7 +2,6 @@ import React from "react";
 import "./ErrorModal.css";
 const ErrorModal = (props) => {
   const errorDismissHandler = (e) => {
-    console.log("Dismiss button clicked");
     props.onErrorDismiss();
   };
   return (
